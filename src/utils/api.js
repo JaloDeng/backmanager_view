@@ -32,7 +32,7 @@ axios.interceptors.response.use(data => {
   }
 })
 
-let base = 'http://localhost:8081'
+let base = ''
 
 export const postRequest = (url, params) => {
   return axios({
@@ -55,9 +55,6 @@ export const postRequest = (url, params) => {
 export const getRequest = (url) => {
   return axios({
     method: 'get',
-    url: `${base}${url}`,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
+    url: `${base}${url}`
   })
 }

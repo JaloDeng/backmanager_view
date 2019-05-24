@@ -89,7 +89,6 @@ export default {
         })
       } else if (cmd === 'getCurrentUser') {
         _this.getRequest('/getCurrentUser').then(resp => {
-          console.log(resp)
         })
       }
     }
