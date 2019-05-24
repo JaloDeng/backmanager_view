@@ -15,6 +15,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
   data () {
     return {
@@ -32,7 +33,24 @@ export default {
   },
   methods: {
     submitClick: function () {
-      alert(this.loginForm.username + ' ' + this.loginForm.password)
+      // let http = axios.create({})
+      // http.post('http://localhost:8081/login?username=' + this.loginForm.username + '&password=' + this.loginForm.password).then(res => {
+      //   console.log(res)
+      // })
+      var _this = this
+      this.loading = true
+      this.postRequest('/login', {
+        username: this.loginForm.username,
+        password: this.loginForm.password
+      }).then(resp => {
+        _this.loading = false
+        if (resp && resp.status === 200) {
+          var data = resp.data
+          _this.$store.commit('login', data.data)
+          var path = _this.$route.query.redirect
+          _this.$router.replace({path: path === '/' || path === undefined ? '/home' : path})
+        }
+      })
     }
   }
 }
