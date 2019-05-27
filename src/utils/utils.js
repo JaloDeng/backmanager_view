@@ -44,6 +44,10 @@ export const formatRoutes = (routes) => {
       component (resolve) {
         if (component.startsWith('Home')) {
           require(['../components/' + component + '.vue'], resolve)
+        } else if (component.startsWith('Activity')) {
+          require(['../components/activity/' + component + '.vue'], resolve)
+        } else if (component.startsWith('System')) {
+          require(['../components/system/' + component + '.vue'], resolve)
         }
       },
       name: name,

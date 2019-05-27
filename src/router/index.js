@@ -13,7 +13,7 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'Home',
+      name: '主页',
       component: () => import('@/components/Home')
     }
   ]

@@ -7,12 +7,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import { initMenu, isNotNullORBlank } from './utils/utils'
-import { getRequest, postRequest } from './utils/api'
+import { getRequest, postRequest, postRequest2 } from './utils/api'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
+Vue.prototype.postRequest2 = postRequest2
 Vue.prototype.isNotNullORBlank = isNotNullORBlank
 
 router.beforeEach((to, from, next) => {
