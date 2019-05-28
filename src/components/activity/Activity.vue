@@ -22,7 +22,7 @@
           </el-table>
           <div style="justify-content:space-between;">
             <el-pagination background :page-size="10" :current-page="activity.page" @current-change="currentChange"
-              layout="total, prev, pager, next" :total="totalCount" style="text-align:center"></el-pagination>
+              layout="total, prev, pager, next" :total="total" style="text-align:center"></el-pagination>
           </div>
         </div>
       </el-main>
@@ -43,7 +43,7 @@ export default {
         size: 10
       },
       tableLoading: false,
-      totalCount: 0
+      total: 0
     }
   },
   methods: {
@@ -71,7 +71,7 @@ export default {
         if (resp && resp.status === 200) {
           var data = resp.data
           _this.activities = data.data
-          _this.totalCount = data.count
+          _this.total = data.total
         }
       })
     }
