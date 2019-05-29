@@ -20,9 +20,10 @@
             <el-table-column prop="sponsor" label="供应商"></el-table-column>
             <el-table-column prop="price" label="价格"></el-table-column>
           </el-table>
+          <br />
           <div style="justify-content:space-between;">
             <el-pagination background :page-size="10" :current-page="activity.page" @current-change="currentChange"
-              layout="total, prev, pager, next" :total="total" style="text-align:center"></el-pagination>
+              layout="prev, pager, next, ->, total" :total="total" style="text-align:center"></el-pagination>
           </div>
         </div>
       </el-main>
