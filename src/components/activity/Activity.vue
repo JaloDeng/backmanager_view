@@ -124,6 +124,9 @@
               </div>
             </el-col>
           </el-row>
+          <el-row>
+            <editor></editor>
+          </el-row>
           <span slot="footer" class="dialog-footer">
             <el-button size="mini" @click="cancelEdit">取消</el-button>
             <el-button size="mini" type="primary" @click="add('addForm')">确认</el-button>
@@ -135,6 +138,8 @@
 </template>
 
 <script>
+import Editor from '../utils/Editor'
+
 export default {
   data () {
     return {
@@ -217,6 +222,9 @@ export default {
   },
   mounted: function () {
     this.load()
+  },
+  components: {
+    Editor
   }
 }
 </script>
