@@ -13,7 +13,7 @@
       </el-header>
       <el-main style="padding-left: 0px;padding-top: 0px">
         <div>
-          <el-table :data="activities" v-loading="tableLoading" size="mini" style="width: 100%;" border="0" cell-style="text-align: center" header-cell-style="text-align: center">
+          <el-table :data="activities" v-loading="tableLoading" size="mini" style="width: 100%;border-radius: 4px; box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)" border="0" cell-style="text-align: center" header-cell-style="text-align: center">
             <el-table-column type="selection" width="30"></el-table-column>
             <el-table-column prop="title" label="主题"></el-table-column>
             <el-table-column prop="statusName" label="状态"></el-table-column>
@@ -39,7 +39,7 @@
     <el-form :model="activity" :rules="rules" ref="addForm" style="margin: 0px;padding: 0px;">
       <div style="text-align: left;">
         <el-dialog :title="dialogTitle" style="padding: 0px" :close-on-click-modal="false" :visible.sync="dialogVisible" :before-close="cancelEdit" width="80%">
-          <el-row>
+          <el-row :gutter="5">
             <el-col :span="6">
               <div>
                 <el-form-item label="主题" prop="title">
@@ -62,7 +62,7 @@
               </div>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="1">
             <el-col :span="6">
               <div>
                 <el-form-item label="起始时间" prop="fromTime">
@@ -125,7 +125,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <editor></editor>
+            <editor v-model="activity.title"></editor>
           </el-row>
           <span slot="footer" class="dialog-footer">
             <el-button size="mini" @click="cancelEdit">取消</el-button>
@@ -145,7 +145,28 @@ export default {
     return {
       activities: [],
       activity: {
-        title: ''
+        id: '',
+        status: '',
+        title: '',
+        summary: '',
+        sponsorId: '',
+        homePath: '',
+        serialNumber: '',
+        editor: '',
+        fromTime: '',
+        toTime: '',
+        address: '',
+        detail: '',
+        expenseExplanation: '',
+        refundExplanation: '',
+        notice: '',
+        clickCount: '',
+        likeCount: '',
+        shareCount: '',
+        remark: '',
+        releaseTime: '',
+        createTime: '',
+        updateTime: ''
       },
       dialogTitle: '',
       dialogVisible: false,
@@ -180,7 +201,28 @@ export default {
     },
     emptyData () {
       this.activity = {
-        title: ''
+        id: '',
+        status: '',
+        title: '',
+        summary: '',
+        sponsorId: '',
+        homePath: '',
+        serialNumber: '',
+        editor: '',
+        fromTime: '',
+        toTime: '',
+        address: '',
+        detail: '',
+        expenseExplanation: '',
+        refundExplanation: '',
+        notice: '',
+        clickCount: '',
+        likeCount: '',
+        shareCount: '',
+        remark: '',
+        releaseTime: '',
+        createTime: '',
+        updateTime: ''
       }
     },
     keywordsChange (val) {
@@ -214,6 +256,7 @@ export default {
       this.dialogTitle = '编辑'
       this.activity = row
       this.dialogVisible = true
+      Editor.txt.append('this.activity.title')
     },
     sizeChange (sizeChange) {
       this.size = sizeChange
