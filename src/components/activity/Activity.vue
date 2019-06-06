@@ -125,7 +125,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <wangeditor :catchData="catchData" :init="activity.title"></wangeditor>
+            <editor v-model="activity.title"></editor>
           </el-row>
           <span slot="footer" class="dialog-footer">
             <el-button size="mini" @click="cancelEdit">取消</el-button>
@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import wangeditor from '../utils/Editor'
+import editor from '../utils/Editor'
 
 export default {
   data () {
@@ -168,7 +168,6 @@ export default {
         createTime: '',
         updateTime: ''
       },
-      editorContent: '',
       dialogTitle: '',
       dialogVisible: false,
       page: 1,
@@ -185,9 +184,6 @@ export default {
     cancelEdit () {
       this.dialogVisible = false
       this.emptyData()
-    },
-    catchData (value) {
-      this.editorContent = value
     },
     currentChange (currentChange) {
       this.page = currentChange
@@ -259,7 +255,6 @@ export default {
     showEditView (row) {
       this.dialogTitle = '编辑'
       this.activity = row
-      this.editorContent = this.activity.title
       this.dialogVisible = true
     },
     sizeChange (sizeChange) {
@@ -271,7 +266,7 @@ export default {
     this.load()
   },
   components: {
-    wangeditor
+    editor
   }
 }
 </script>

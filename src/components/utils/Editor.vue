@@ -1,5 +1,5 @@
 <template>
-  <div id="wangeditor">
+  <div>
     <div ref="editor" style="text-align:left"></div>
   </div>
 </template>
@@ -9,26 +9,22 @@ import E from 'wangeditor'
 
 export default {
   name: 'editor',
-  data () {
-    return {
-      editor: null,
-      editorContent: ''
-    }
+  model: {
+    prop: 'editorContent',
+    event: 'change'
   },
   mounted () {
-    this.editor = new E(this.$refs.editor)
-    this.editor.customConfig.onchange = (html) => {
-      this.editorContent = html
-      this.catchData(this.editorContent)
+    var editor = new E(this.$refs.editor)
+    editor.customConfig.onchange = (html) => {
+      this.$emit('change', html)
     }
-    this.editor.create()
-    console.log(this.init)
-    this.editor.txt.html(this.init)
+    editor.create()
+    console.log(this.editorContent)
+    editor.txt.html(this.editorContent)
   },
-  props: ['catchData', 'init'],
-  watch: {
-    content () {
-      this.editor.txt.html(this.init)
+  props: {
+    editorContent: {
+      required: true
     }
   }
 }
