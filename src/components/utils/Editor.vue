@@ -15,13 +15,12 @@ export default {
     }
   },
   model: {
-    prop: 'editorContent',
-    event: 'change'
+    prop: 'editorContent'
   },
   mounted () {
     this.editor = new E(this.$refs.editor)
     this.editor.customConfig.onchange = (html) => {
-      this.$emit('change', html)
+      this.editorContent = html
     }
     this.editor.create()
     this.editor.txt.html(this.editorContent)
