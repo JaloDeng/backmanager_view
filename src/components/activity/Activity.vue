@@ -109,7 +109,7 @@
             </el-col>
           </el-row>
           <el-row>
-            明细<editor id="e" v-model="activity.detail"></editor>
+            明细<wangereditor v-model="activity.detail" @change="onEditorContentChange"></wangereditor>
           </el-row>
           <span slot="footer" class="dialog-footer">
             <el-button size="mini" @click="cancelEdit">取消</el-button>
@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import editor from '../utils/Editor'
+import wangereditor from '../utils/Editor'
 
 export default {
   data () {
@@ -153,6 +153,7 @@ export default {
         updateTime: '',
         activityPackages: []
       },
+      editorContent: '',
       dialogTitle: '',
       dialogVisible: false,
       page: 1,
@@ -165,6 +166,7 @@ export default {
   methods: {
     save (formName) {
       var _this = this
+      _this.activity.detail = this.editorContent
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!_this.activity.id) {
@@ -259,6 +261,9 @@ export default {
         }
       })
     },
+    onEditorContentChange (html) {
+      this.editorContent = html
+    },
     search () {
       this.page = 1
       this.load()
@@ -282,7 +287,7 @@ export default {
     this.load()
   },
   components: {
-    editor
+    wangereditor
   }
 }
 </script>

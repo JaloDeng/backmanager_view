@@ -20,7 +20,7 @@ export default {
   mounted () {
     this.editor = new E(this.$refs.editor)
     this.editor.customConfig.onchange = (html) => {
-      this.editorContent = html
+      this.$emit('change', html)
     }
     this.editor.create()
     this.editor.txt.html(this.editorContent)
