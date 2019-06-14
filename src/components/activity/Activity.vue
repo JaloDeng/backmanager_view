@@ -36,7 +36,7 @@
         </div>
       </el-main>
     </el-container>
-    <el-form :model="activity" :rules="rules" ref="addForm" style="margin: 0px;padding: 0px;">
+    <el-form :model="activity" :rules="rules" ref="saveForm" style="margin: 0px;padding: 0px;">
       <div style="text-align: left;">
         <el-dialog :title="dialogTitle" style="padding: 0px" :close-on-click-modal="false" :visible.sync="dialogVisible" :before-close="cancelEdit" width="80%">
           <el-row :gutter="5">
@@ -79,8 +79,8 @@
             </el-col>
             <el-col :span="6">
               <div>
-                <el-form-item label="地址" prop="address">
-                  <el-input prefix-icon="el-icon-location" v-model="activity.address" size="mini" style="width: 300px" placeholder="请输入活动地址"></el-input>
+                <el-form-item label="发布时间" prop="releaseTime">
+                  <el-input prefix-icon="el-icon-time" v-model="activity.releaseTime" size="mini" style="width: 300px" readonly="true"></el-input>
                 </el-form-item>
               </div>
             </el-col>
@@ -88,8 +88,8 @@
           <el-row>
             <el-col :span="6">
               <div>
-                <el-form-item label="详情" prop="detail">
-                  <el-input prefix-icon="el-icon-edit" v-model="activity.detail" size="mini" style="width: 300px" placeholder="请输入活动详情"></el-input>
+                <el-form-item label="地址" prop="address">
+                  <el-input prefix-icon="el-icon-location" v-model="activity.address" size="mini" style="width: 300px" placeholder="请输入活动地址"></el-input>
                 </el-form-item>
               </div>
             </el-col>
@@ -109,27 +109,11 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="6">
-              <div>
-                <el-form-item label="备注" prop="remark">
-                  <el-input prefix-icon="el-icon-edit" v-model="activity.remark" size="mini" style="width: 300px" placeholder="请输入活动备注"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div>
-                <el-form-item label="发布时间" prop="releaseTime">
-                  <el-input prefix-icon="el-icon-time" v-model="activity.releaseTime" size="mini" style="width: 300px" readonly="true"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row>
-            <editor v-model="activity.title"></editor>
+            明细<editor id="e" v-model="activity.detail"></editor>
           </el-row>
           <span slot="footer" class="dialog-footer">
             <el-button size="mini" @click="cancelEdit">取消</el-button>
-            <el-button size="mini" type="primary" @click="add('addForm')">确认</el-button>
+            <el-button size="mini" type="primary" @click="save('saveForm')">确认</el-button>
           </span>
         </el-dialog>
       </div>
@@ -166,7 +150,8 @@ export default {
         remark: '',
         releaseTime: '',
         createTime: '',
-        updateTime: ''
+        updateTime: '',
+        activityPackages: []
       },
       dialogTitle: '',
       dialogVisible: false,
@@ -178,12 +163,33 @@ export default {
     }
   },
   methods: {
-    add (form) {
-      alert('点击添加确定按钮')
+    save (formName) {
+      var _this = this
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (!_this.activity.id) {
+            var activityPackage = {
+              price: 0.00,
+              quota: -1,
+              title: '免费',
+              explanation: ''
+            }
+            _this.activity.activityPackages.push(activityPackage)
+          }
+          this.postRequest2('/saveActivity', _this.activity).then(resp => {
+            if (resp && resp.status === 200) {
+              _this.dialogVisible = false
+              _this.emptyData()
+              _this.load()
+            }
+          })
+        }
+      })
     },
     cancelEdit () {
       this.dialogVisible = false
       this.emptyData()
+      this.load()
     },
     currentChange (currentChange) {
       this.page = currentChange
@@ -222,8 +228,17 @@ export default {
         remark: '',
         releaseTime: '',
         createTime: '',
-        updateTime: ''
+        updateTime: '',
+        activityPackages: []
       }
+    },
+    getActivityById () {
+      this.postRequest2('/getActivityById?id=' + this.activity.id, null).then(resp => {
+        if (resp && resp.status === 200) {
+          var data = resp.data
+          this.activity = data.data
+        }
+      })
     },
     keywordsChange (val) {
       if (val === '') {
@@ -256,6 +271,7 @@ export default {
       this.dialogTitle = '编辑'
       this.activity = row
       this.dialogVisible = true
+      this.getActivityById()
     },
     sizeChange (sizeChange) {
       this.size = sizeChange
